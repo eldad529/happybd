@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Main 3</title>
+  <link rel="stylesheet" href="styles3.css">
+</head>
+<body>
+  <main>
+    <h1 class="coupon">קופון חינם לכל מה שבאלך (בלי תחת סטאף)</h1>
+  </main>
+
+  <!-- enojado GIF bottom-left -->
+  <img src="assets/enojado.gif" alt="enojado" class="enojado">
+
+  <!-- Popup GIF (hidden until coupon click) -->
+  <div id="popupGif" class="popup-gif" aria-hidden="true">
+    <img id="popupGifImg" src="assets/confetti-cute.gif" alt="confetti">
+  </div>
+
+  <script>
+    (function(){
+      const coupon = document.querySelector('.coupon');
+      const popup = document.getElementById('popupGif');
+      const popupImg = document.getElementById('popupGifImg');
+      let timer = null;
+
+      // Make the coupon act like a button
+      coupon.setAttribute('role','button');
+      coupon.tabIndex = 0;
+
+      function showPopup(){
+        // force GIF restart by adding cache-busting query
+        popupImg.src = 'assets/confetti-cute.gif?t=' + Date.now();
+        popup.classList.add('active');
+        popup.setAttribute('aria-hidden','false');
+        clearTimeout(timer);
+        timer = setTimeout(()=>{
+          popup.classList.remove('active');
+          popup.setAttribute('aria-hidden','true');
+        }, 800);
+      }
+
+      coupon.addEventListener('click', showPopup);
+      coupon.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showPopup(); } });
+    })();
+  </script>
+</body>
+</html>
